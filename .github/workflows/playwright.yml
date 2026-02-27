@@ -23,4 +23,4 @@ jobs:
           npx playwright install --with-deps
 
       - name: Run scraper - 23f2005160@ds.study.iitm.ac.in
-        run: node scrape.js
+        run: node sumTables.js
