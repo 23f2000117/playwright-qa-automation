@@ -7,21 +7,19 @@ const { chromium } = require('playwright');
   let grandTotal = 0;
 
   for (let seed = 45; seed <= 54; seed++) {
-    const url = `https://sanand0.github.io/tdsdata/js_table/?seed=${seed}`;
-    await page.goto(url);
+    await page.goto(`https://sanand0.github.io/tdsdata/js_table/?seed=${seed}`);
+    const text = await page.textContent("body");
 
-    const bodyText = await page.textContent("body");
-
-    const numbers = bodyText
-      .match(/\d+/g)
-      .map(Number);
+    const numbers = text
+      .split(/\s+/)
+      .map(Number)
+      .filter(n => !isNaN(n));
 
     const sum = numbers.reduce((a, b) => a + b, 0);
     grandTotal += sum;
   }
 
-  // VERY IMPORTANT: print ONLY the number
-  process.stdout.write(String(grandTotal));
+  console.log(grandTotal);
 
   await browser.close();
 })();
