@@ -8,14 +8,15 @@ const { chromium } = require('playwright');
 
   for (let seed = 45; seed <= 54; seed++) {
     await page.goto(`https://sanand0.github.io/tdsdata/js_table/?seed=${seed}`);
-    const text = await page.textContent("body");
+    await page.waitForSelector("table");
 
-    const numbers = text
-      .split(/\s+/)
-      .map(Number)
-      .filter(n => !isNaN(n));
+    const sum = await page.$$eval("table td", cells =>
+      cells
+        .map(c => Number(c.innerText))
+        .filter(n => !isNaN(n))
+        .reduce((a,b) => a + b, 0)
+    );
 
-    const sum = numbers.reduce((a, b) => a + b, 0);
     grandTotal += sum;
   }
 
