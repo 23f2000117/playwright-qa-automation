@@ -1,15 +1,15 @@
-name: Playwright Table Sum
+name: Playwright QA Automation
 
 on:
   push:
-    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Node
@@ -17,10 +17,11 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
-        run: |
-          npm install
-          npx playwright install --with-deps
+      - name: Install Dependencies
+        run: npm install
 
-      - name: Run scraper - 23f2005160@ds.study.iitm.ac.in
+      - name: Install Playwright Browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Run scraper - 23f2000117@ds.study.iitm.ac.in
         run: node sumTables.js
