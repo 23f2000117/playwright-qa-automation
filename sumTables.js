@@ -20,7 +20,7 @@ const { chromium } = require('playwright');
     grandTotal += sum;
   }
 
-  console.log("FINAL TOTAL:", grandTotal);
+  console.log(grandTotal);
 
   await browser.close();
 })();
