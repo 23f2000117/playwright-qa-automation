@@ -1,7 +1,7 @@
 const { chromium } = require('playwright');
 
 (async () => {
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch();
   const page = await browser.newPage();
 
   const seeds = [69,70,71,72,73,74,75,76,77,78];
@@ -10,8 +10,11 @@ const { chromium } = require('playwright');
   for (const seed of seeds) {
     const url = `https://sanand0.github.io/tdsdata/js_table/?seed=${seed}`;
     await page.goto(url);
+
+    // Wait for tables to load
     await page.waitForSelector("table");
 
+    // Get all numbers inside tables
     const numbers = await page.$$eval("table td", cells =>
       cells.map(cell => Number(cell.innerText)).filter(n => !isNaN(n))
     );
@@ -20,7 +23,7 @@ const { chromium } = require('playwright');
     grandTotal += sum;
   }
 
-  process.stdout.write(String(grandTotal));
+  console.log("FINAL TOTAL:", grandTotal);
 
   await browser.close();
 })();
